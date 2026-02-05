@@ -43,14 +43,33 @@ cat > "$CURSOR_DIR/hooks.json" << 'EOF'
 {
   "version": 1,
   "hooks": {
-    "afterShellExecution": [
-      { "command": ".cursor/hooks/claude-mem-ingest.sh" }
-    ],
-    "afterFileEdit": [
-      { "command": ".cursor/hooks/claude-mem-ingest.sh" }
+    "beforeSubmitPrompt": [
+      {
+        "command": "node \"/Users/carterdixon_1/.claude/plugins/marketplaces/thedotmack/plugin/scripts/worker-service.cjs\" hook cursor session-init"
+      },
+      {
+        "command": "node \"/Users/carterdixon_1/.claude/plugins/marketplaces/thedotmack/plugin/scripts/worker-service.cjs\" hook cursor context"
+      }
     ],
     "afterMCPExecution": [
-      { "command": ".cursor/hooks/claude-mem-ingest.sh" }
+      {
+        "command": "node \"/Users/carterdixon_1/.claude/plugins/marketplaces/thedotmack/plugin/scripts/worker-service.cjs\" hook cursor observation"
+      }
+    ],
+    "afterShellExecution": [
+      {
+        "command": "node \"/Users/carterdixon_1/.claude/plugins/marketplaces/thedotmack/plugin/scripts/worker-service.cjs\" hook cursor observation"
+      }
+    ],
+    "afterFileEdit": [
+      {
+        "command": "node \"/Users/carterdixon_1/.claude/plugins/marketplaces/thedotmack/plugin/scripts/worker-service.cjs\" hook cursor file-edit"
+      }
+    ],
+    "stop": [
+      {
+        "command": "node \"/Users/carterdixon_1/.claude/plugins/marketplaces/thedotmack/plugin/scripts/worker-service.cjs\" hook cursor summarize"
+      }
     ]
   }
 }
